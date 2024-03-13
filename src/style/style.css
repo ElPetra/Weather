@@ -132,3 +132,6 @@ font-weight: 400;
     padding: 6px 26px;
     margin-top: 57px;
 }
+.img__icon {
+  align-items: center;
+}

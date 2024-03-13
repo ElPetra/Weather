@@ -43,6 +43,7 @@ async function city(cityName) {
     `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&lang=en&appid=${api}`
   );
   const data = await geo.json();
+  console.log(data);
   if (data.cod === "404") {
     errorCity();
   }
@@ -89,21 +90,27 @@ async function error() {
   console.log("ERROR");
   // fetch("http://api.apify.org/?format=json").then(response => response.json()).then(data => getIP(data)).catch(console.log("IP is not found"))
   await fetch("https://api.ipify.org/?format=json")
-  .then(response => response.json()).then(data => getIP(data))
-  // let myIPjson = await myIP.json();
-  console.log(myIPjson);
-}
+    .then((res) => res.json())
+    .then((data) => getIP(data));
+   }
 
 window.onload = function (data) {
   tempFunction(lat, lon);
+  getIP();
   dataAtSite(data);
 };
 
 async function getIP(json) {
   console.log("IPPPPP", json.ip);
-  await fetch(
+  let IPData = await fetch(
     `https://geo.ipify.org/api/v2/country,city?apiKey=at_1VIshuqkjM9cuY9u6jlfFgCaGAOXd&ipAddress=${json.ip}`
-      .then(response => response.json())
-      .then(data => city(data.location.region))
-  );
+  )
+    .then((res) => res.json())
+    // .then((res) => city(res.location.region));
+  let IPCity = IPData.location.region;
+  city(IPCity);
+ console.log(IPCity);
 }
+
+
+

@@ -58,10 +58,10 @@ function errorCity() {
 }
 
 function dataAtSite(data) {
-  temp = Math.round(data.main.temp);
-  weather = data.weather[0].main;
-  cityValue = data.name;
-  img = data.weather[0].icon;
+  let temp = Math.round(data.main.temp);
+  let weather = data.weather[0].main;
+  let cityValue = data.name;
+  let img = data.weather[0].icon;
   content.innerHTML = `<img src="https://openweathermap.org/img/wn/${img}@2x.png" alt="" class="img__icon"><p class="temp">${temp}°С</p>
         <p class="condition">${weather} in ${cityValue}</p>
         <button class="change">Change city</button>`;
@@ -88,11 +88,11 @@ async function tempFunction(lat, lon) {
 
 async function error() {
   console.log("ERROR");
-  // fetch("http://api.apify.org/?format=json").then(response => response.json()).then(data => getIP(data)).catch(console.log("IP is not found"))
   await fetch("https://api.ipify.org/?format=json")
     .then((res) => res.json())
-    .then((data) => getIP(data));
-   }
+    .then((data) => getIP(data))
+    .catch(console.log("IP is not found"));
+}
 
 window.onload = function (data) {
   tempFunction(lat, lon);
@@ -103,14 +103,10 @@ window.onload = function (data) {
 async function getIP(json) {
   console.log("IPPPPP", json.ip);
   let IPData = await fetch(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=at_1VIshuqkjM9cuY9u6jlfFgCaGAOXd&ipAddress=${json.ip}`
+    `https://geo.ipify.org/api/v2/country,city?apiKey=at_MjSo7gov72CRBSM8cv1js7LKSu2DA&ipAddress=${json.ip}`
   )
     .then((res) => res.json())
-    // .then((res) => city(res.location.region));
-  let IPCity = IPData.location.region;
-  city(IPCity);
- console.log(IPCity);
+    .then((res) => city(res.location.region));
+  city(IPData.name);
+  console.log(IPData.name);
 }
-
-
-
